@@ -4,7 +4,7 @@ import HelloWorld from '@/components/HelloWorld'
 
 Vue.use(Router)
 
-export default new Router({
+export default {
   routes: [
     {
       path: '/',
@@ -14,7 +14,7 @@ export default new Router({
     {
       path: '/login',
       name: 'Login',
-      component: resolve => require(['../views/login'], resolve) //异步加载
+      component: resolve => require(['../views/login'], resolve)
     }
   ]
-})
+}

@@ -34,6 +34,28 @@
 
 <script>
 export default {
-    
+    name: 'Login',
+    data: function(){
+        return {
+            username: '',
+            password: '',
+            status: false,
+            statusMsg: ''
+        }
+    },
+    methods: {
+        login(){
+            let data = {
+                    username: this.username,
+                    password: this.password
+                  };
+            
+            this.$http.post('/api/login', data).then((response) => {
+
+                this.status = true;
+                this.statusMsg = response.data.msg;
+            })
+     },
+    }
 }
 </script>
