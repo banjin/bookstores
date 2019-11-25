@@ -4,13 +4,34 @@
 
 const path = require('path')
 
+let apiServer = '';
+try {
+  apiServer = require('../.config').apiServer
+} catch(err) {
+  apiServer = 'http://127.0.0.1:8080/'
+}
+
+
 module.exports = {
   dev: {
 
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '/api':{
+        target:apiServer,  //这里写的是访问接口的域名和端口号
+        changeOrigin: true, // 是否跨域
+        pathRewrite: {
+          '^api': '' // 需要rewrite
+        }
+      },
+      '/media':{
+        target:apiServer,  //这里写的是访问接口的域名和端口号
+        changeOrigin: true, // 必须加上这个才能跨域请求
+      },
+      cssSourceMap: false
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
