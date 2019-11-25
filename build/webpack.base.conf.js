@@ -4,27 +4,27 @@ const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 
-function resolve (dir) {
+function resolve (dir) { //处理路径
   return path.join(__dirname, '..', dir)
 }
 
 
 
 module.exports = {
-  context: path.resolve(__dirname, '../'),
+  context: path.resolve(__dirname, '../'), // 基础目录
   entry: {
-    app: './src/main.js'
+    app: './src/main.js' //入口文件
   },
   output: {
-    path: config.build.assetsRoot,
-    filename: '[name].js',
+    path: config.build.assetsRoot, //输出文件默认是"../dist"
+    filename: '[name].js', //输出文件名称
     publicPath: process.env.NODE_ENV === 'production'
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath
   },
-  resolve: {
+  resolve: { //解析确定的扩展名，方便模块导入
     extensions: ['.js', '.vue', '.json'],
-    alias: {
+    alias: { //创建别名
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
     }
@@ -33,7 +33,7 @@ module.exports = {
     rules: [
       {
         test: /\.vue$/,
-        loader: 'vue-loader',
+        loader: 'vue-loader', //Vue转普通的html
         options: vueLoaderConfig
       },
       {

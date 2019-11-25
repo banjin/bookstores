@@ -32,16 +32,16 @@ const webpackConfig = merge(baseWebpackConfig, {
     new webpack.DefinePlugin({
       'process.env': env
     }),
-    new UglifyJsPlugin({
+    new UglifyJsPlugin({  // js 代码压缩还可配置 include, cache 等，也可用 babel-minify
       uglifyOptions: {
         compress: {
           warnings: false
         }
       },
       sourceMap: config.build.productionSourceMap,
-      parallel: true
+      parallel: true  // 充分利用多核cpu
     }),
-    // extract css into its own file
+    // extract css into its own file  // 提取 js 文件中的 css
     new ExtractTextPlugin({
       filename: utils.assetsPath('css/[name].[contenthash].css'),
       // Setting the following option to `false` will not extract CSS from codesplit chunks.
@@ -52,7 +52,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     }),
     // Compress extracted CSS. We are using this plugin so that possible
     // duplicated CSS from different components can be deduped.
-    new OptimizeCSSPlugin({
+    new OptimizeCSSPlugin({ // 压缩提取出的css
       cssProcessorOptions: config.build.productionSourceMap
         ? { safe: true, map: { inline: false } }
         : { safe: true }
@@ -60,7 +60,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     // generate dist index.html with correct asset hash for caching.
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
-    new HtmlWebpackPlugin({
+    new HtmlWebpackPlugin({  // 生成 html
       filename: config.build.index,
       template: 'index.html',
       inject: true,
@@ -72,13 +72,13 @@ const webpackConfig = merge(baseWebpackConfig, {
         // https://github.com/kangax/html-minifier#options-quick-reference
       },
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-      chunksSortMode: 'dependency'
+      chunksSortMode: 'dependency'  // 按 dependency 的顺序引入
     }),
     // keep module.id stable when vendor modules does not change
-    new webpack.HashedModuleIdsPlugin(),
-    // enable scope hoisting
-    new webpack.optimize.ModuleConcatenationPlugin(),
-    // split vendor js into its own file
+    new webpack.HashedModuleIdsPlugin(),  // 根据模块的相对路径生成一个四位数的 hash 作为模块 id
+    // enable scope hoisting  // 预编译所有模块到一个闭包中
+    new webpack.optimize.ModuleConcatenationPlugin(),  
+    // split vendor js into its own file   // 拆分公共模块
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks (module) {
@@ -108,7 +108,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       minChunks: 3
     }),
 
-    // copy custom static assets
+    // copy custom static assets  // 拷贝静态文档
     new CopyWebpackPlugin([
       {
         from: path.resolve(__dirname, '../static'),
@@ -119,7 +119,7 @@ const webpackConfig = merge(baseWebpackConfig, {
   ]
 })
 
-if (config.build.productionGzip) {
+if (config.build.productionGzip) {    // gzip 压缩
   const CompressionWebpackPlugin = require('compression-webpack-plugin')
 
   webpackConfig.plugins.push(
@@ -131,13 +131,13 @@ if (config.build.productionGzip) {
         config.build.productionGzipExtensions.join('|') +
         ')$'
       ),
-      threshold: 10240,
-      minRatio: 0.8
+      threshold: 10240,  // 10kb 以上大小的文件才压缩
+      minRatio: 0.8  // 最小比例达到 .8 时才压缩
     })
   )
 }
 
-if (config.build.bundleAnalyzerReport) {
+if (config.build.bundleAnalyzerReport) {  // 可视化分析包的尺寸
   const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
   webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }

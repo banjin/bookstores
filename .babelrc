@@ -1,12 +1,12 @@
-{
+{ //设定转码规则
   "presets": [
     ["env", {
       "modules": false,
-      "targets": {
+      "targets": { //对BABEL_ENV或者NODE_ENV指定的不同的环境变量，进行不同的编译操作
         "browsers": ["> 1%", "last 2 versions", "not ie <= 8"]
       }
     }],
     "stage-2"
   ],
-  "plugins": ["transform-vue-jsx", "transform-runtime"]
+  "plugins": ["transform-vue-jsx", "transform-runtime"] //转码用的插件
 }
